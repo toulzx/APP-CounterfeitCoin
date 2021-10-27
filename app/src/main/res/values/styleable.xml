@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DecimalEditText">
+        <attr name="decimalStarNumber" format="integer"/>
+        <attr name="decimalEndNumber" format="integer"/>
+    </declare-styleable>
+</resources>
