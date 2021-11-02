@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -49,6 +50,9 @@ public class TrichotomyActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // hide the status bar
+        getWindow ().addFlags (WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         int num = getIntent().getIntExtra("NUM", 12);
         Log.i(TAG, "onCreate: getIntent().getIntExtra(\"NUM\", 12)" + getIntent().getIntExtra("NUM", 12));
         // layout binding
@@ -90,7 +94,7 @@ public class TrichotomyActivity extends AppCompatActivity {
         hasRefreshed = false;
         hasShowedResult = false;
 
-        updateUI(Trichotomy.init(num));
+        updateUI(Trichotomy.init(num, this));
 
     }
 
@@ -243,7 +247,6 @@ public class TrichotomyActivity extends AppCompatActivity {
                     bgColors[bgColors.length - 1 - i]
             );
 
-            // TODO : 这个背景颜色变化有点问题
             if (previousTargetGroup < 0) {
                 bgContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
             } else {

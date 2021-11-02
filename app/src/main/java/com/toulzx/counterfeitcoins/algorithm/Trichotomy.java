@@ -1,8 +1,10 @@
 package com.toulzx.counterfeitcoins.algorithm;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Trichotomy {
@@ -23,7 +25,7 @@ public class Trichotomy {
      * @date 2021/10/26 14:26
      * @author tou
      */
-    public static int[] init(int num) {
+    public static int[] init(int num, Context context) {
 
         Random rand;
         int randNum;
@@ -57,7 +59,41 @@ public class Trichotomy {
 
         stepList.add(currentStep);
 
+        // 在算法中直接预测出结果（要求演示中途不刷新才能保证结果一致性）
+        TrichotomyOriginal.init(getInitSet(currentStep), context);
+
         return currentStep;
+
+    }
+
+    /**
+     * 获得随机生成的数组
+     * @param step :
+     * @return void
+     * @date 2021/11/2 20:20
+     * @author tou
+     */
+    private static int[] getInitSet(int[] step) {
+        int[] set = new int[2*step[EXPECTED_GROUP_NUM] + step[REMAIN_GROUP_NUM]];
+
+        for (int i = 0; i < 3; i++) {
+
+            int groupNum = (i != 2) ? step[EXPECTED_GROUP_NUM] : step[REMAIN_GROUP_NUM];
+
+            for (int j = 0; j < groupNum; j++) {
+                int temp = i == 2 ? 2*step[EXPECTED_GROUP_NUM] : (i == 1 ? step[EXPECTED_GROUP_NUM] : 0);
+                if (step[TARGET_GROUP] == i && step[TARGET_INDEX] == j) {
+                    set[temp + j] = 0;
+                } else {
+                    set[temp + j] = 1;
+                }
+            }
+
+        }
+
+        Log.i(TAG, "[real]getInitSet: Set=" + Arrays.toString(set));
+
+        return set;
 
     }
 
