@@ -25,7 +25,7 @@ public class Trichotomy {
      * @date 2021/10/26 14:26
      * @author tou
      */
-    public static int[] init(int num, Context context) {
+    public static int[] init(int num) {
 
         Random rand;
         int randNum;
@@ -59,9 +59,6 @@ public class Trichotomy {
 
         stepList.add(currentStep);
 
-        // 在算法中直接预测出结果（要求演示中途不刷新才能保证结果一致性）
-        TrichotomyOriginal.init(getInitSet(currentStep), context);
-
         return currentStep;
 
     }
@@ -73,7 +70,7 @@ public class Trichotomy {
      * @date 2021/11/2 20:20
      * @author tou
      */
-    private static int[] getInitSet(int[] step) {
+    public static int[] getInitSet(int[] step) {
         int[] set = new int[2*step[EXPECTED_GROUP_NUM] + step[REMAIN_GROUP_NUM]];
 
         for (int i = 0; i < 3; i++) {
@@ -265,7 +262,7 @@ public class Trichotomy {
      * @date 2021/10/27 09:36
      * @author tou
      */
-    public static int getCcurrentTargetGroup() {
+    public static int getCurrentTargetGroup() {
         if (pointer == -1) {
 
             Log.e(TAG, "getCurrentTargetGroup: 你不应该在初始化之前执行这个操作！");

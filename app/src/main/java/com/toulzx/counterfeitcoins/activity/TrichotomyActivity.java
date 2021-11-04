@@ -8,21 +8,18 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.Group;
 import androidx.core.content.ContextCompat;
 
 import com.toulzx.counterfeitcoins.R;
 import com.toulzx.counterfeitcoins.algorithm.Trichotomy;
+import com.toulzx.counterfeitcoins.algorithm.TrichotomyOriginal;
 import com.toulzx.counterfeitcoins.databinding.ActivityTrichotomyBinding;
-
-import java.util.Arrays;
 
 public class TrichotomyActivity extends AppCompatActivity {
 
@@ -94,7 +91,7 @@ public class TrichotomyActivity extends AppCompatActivity {
         hasRefreshed = false;
         hasShowedResult = false;
 
-        updateUI(Trichotomy.init(num, this));
+        updateUI(Trichotomy.init(num));
 
     }
 
@@ -155,7 +152,7 @@ public class TrichotomyActivity extends AppCompatActivity {
                 // 第一次按下 下一步 时候，展示被选择的组，再一次按下时，才进入下一步
                 if (!hasShowedResult) {
 
-                    int currentGroup = Trichotomy.getCcurrentTargetGroup();
+                    int currentGroup = Trichotomy.getCurrentTargetGroup();
                     Log.i(TAG, "onClick: currentGroup = " + currentGroup);
                     mBinding.triLinContainer1.setVisibility(currentGroup == 0 ? View.VISIBLE : View.GONE);
                     mBinding.triLinContainer2.setVisibility(currentGroup == 1 ? View.VISIBLE : View.GONE);
@@ -212,13 +209,16 @@ public class TrichotomyActivity extends AppCompatActivity {
 /*-------------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * 绘制界面 UI 并展示
+     * 绘制界面 UI 并运行 Trichotomy 算法得到预测结果
      * @param targetStep:
      * @return void
      * @date 2021/10/26 14:46
      * @author tou
      */
     private void updateUI(int[] targetStep) {
+
+        // 在算法中直接预测出结果
+        TrichotomyOriginal.init(Trichotomy.getInitSet(targetStep), mContext);
 
 //        Toast.makeText(this, Arrays.toString(targetStep), Toast.LENGTH_SHORT).show();
 //        Log.i(TAG, "updateUI: targetStep = " + Arrays.toString(targetStep));
